@@ -13,7 +13,7 @@
             --text-color: #333333;
             --text-muted: #7f8c8d;
             --border-color: #e2e8f0;
-            --accent-color: #c0392b; /* 警告や見積もり用の落ち着いた赤 */
+            --accent-color: #c0392b;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
@@ -23,7 +23,7 @@
             color: var(--text-color);
             line-height: 1.6;
             margin: 0;
-            padding: 40px 20px;
+            padding: 40px 20px 240px 20px; /* 下部固定パネルのスペースを確保 */
         }
 
         .container {
@@ -77,7 +77,6 @@
             min-width: 250px;
         }
 
-        /* チェックボックスのカスタムスタイル */
         .custom-checkbox {
             width: 18px;
             height: 18px;
@@ -127,7 +126,7 @@
         .options-area {
             margin-top: 15px;
             padding-left: 30px;
-            display: none; /* 初期状態は非表示（メニューチェックで開く） */
+            display: none;
             flex-direction: column;
             gap: 10px;
         }
@@ -155,37 +154,46 @@
             color: var(--text-muted);
         }
 
-        /* 計算結果表示エリア（固定フッター風） */
-        .result-panel {
-            background: var(--primary-color);
+        /* ✨ 変更点：画面下部に常に固定される計算結果表示エリア */
+        .result-panel-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(44, 62, 80, 0.98); /* 背景をわずかに透過させて上品に */
+            backdrop-filter: blur(4px); /* 背景をぼかすエフェクト */
             color: #ffffff;
-            border-radius: 8px;
-            padding: 24px;
-            margin-top: 30px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.15);
+            padding: 20px 40px;
+            z-index: 1000;
         }
 
-        .result-panel h2 {
-            font-size: 18px;
-            margin: 0 0 15px 0;
+        .result-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .result-panel-fixed h2 {
+            font-size: 16px;
+            margin: 0 0 10px 0;
             font-weight: 500;
             border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 10px;
+            padding-bottom: 5px;
         }
 
         .summary-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 20px 0;
+            margin: 0 0 10px 0;
             font-size: 14px;
-            max-height: 150px;
+            max-height: 80px; /* 固定パネル内で収まるよう少しコンパクトに */
             overflow-y: auto;
         }
 
         .summary-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             color: rgba(255,255,255,0.8);
         }
 
@@ -193,14 +201,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             border-top: 1px solid rgba(255,255,255,0.3);
-            padding-top: 15px;
+            padding-top: 10px;
         }
 
         .total-price {
-            font-size: 28px;
+            font-size: 26px;
             letter-spacing: 0.05em;
         }
 
@@ -223,8 +231,10 @@
 
     <div id="menu-container">
         </div>
+</div>
 
-    <div class="result-panel">
+<div class="result-panel-fixed">
+    <div class="result-inner">
         <h2>選択内容明細</h2>
         <ul class="summary-list" id="summary-list">
             <li class="summary-item">メニューが選択されていません</li>
@@ -242,88 +252,71 @@
  * =================================================================
  * ⚙️ データの編集・変更はここを書き換えてください（すべて税込価格）
  * =================================================================
- * 0円に設定すると画面上で自動的に「要見積」と表示されるようになっています。
  */
 const menuData = [
     {
         id: "standard_wall",
         name: "【標準】壁掛け型エアコンクリーニング",
-        type: "aircon_normal",
-        // 台数ごとの税込料金 (CSVのデータより)
-        prices: {
-            1: 9900,
-            2: 16500,
-            3: 24750,
-            4: 0 // 見積もり(nan)のため0円
-        },
+        type: "aircon",
+        prices: { 1: 9900, 2: 16500, 3: 24750, 4: 0 },
         maxQty: 4,
         options: [
-            { id: "coat", name: "防カビ抗菌コート", prices: { 1: 13200, 2: 19800, 3: 28050, 4: 0 } },
-            { id: "outdoor", name: "室外機分解クリーニング", prices: { 1: 15400, 2: 22000, 3: 5500, 4: 0 } },
-            { id: "both", name: "防カビ＋室外機", prices: { 1: 16225, 2: 22825, 3: 31075, 4: 0 } }
+            { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 13200, 2: 19800, 3: 28050, 4: 0 } },
+            { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 15400, 2: 22000, 3: 5500, 4: 0 } },
+            { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 16225, 2: 22825, 3: 31075, 4: 0 } },
+            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 } // ✨ エアコン共通オプションとして追加
         ]
     },
     {
         id: "cleaning_function",
         name: "【壁掛型】お掃除機能付きエアコンクリーニング",
-        type: "aircon_normal",
-        prices: {
-            1: 19800,
-            2: 36300,
-            3: 54450
-        },
+        type: "aircon",
+        prices: { 1: 19800, 2: 36300, 3: 54450 },
         maxQty: 3,
         options: [
-            { id: "coat", name: "防カビ抗菌コート", prices: { 1: 23100, 2: 41250, 3: 61050 } },
-            { id: "outdoor", name: "室外機分解クリーニング", prices: { 1: 25300, 2: 42900, 3: 63250 } },
-            { id: "both", name: "防カビ＋室外機", prices: { 1: 26125, 2: 44275, 3: 64625 } }
+            { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 23100, 2: 41250, 3: 61050 } },
+            { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 25300, 2: 42900, 3: 63250 } },
+            { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 26125, 2: 44275, 3: 64625 } },
+            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
         id: "ceiling_1way",
         name: "【天井埋め込み型】1方向 エアコンクリーニング",
-        type: "aircon_ceiling",
+        type: "aircon",
         prices: { 1: 22000, 2: 40700, 3: 61050, 4: 81400, 5: 93500 },
         maxQty: 5,
         options: [
-            { id: "coat", name: "防カビ抗菌コート", prices: { 1: 26400, 2: 46200, 3: 69300, 4: 92400, 5: 104500 } },
-            { id: "outdoor", name: "室外機分解クリーニング", prices: { 1: 29150, 2: 48950, 3: 72050, 4: 95150, 5: 107250 } },
-            { id: "both", name: "防カビ＋室外機", prices: { 1: 32450, 2: 52250, 3: 75350, 4: 98450, 5: 110550 } }
+            { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 26400, 2: 46200, 3: 69300, 4: 92400, 5: 104500 } },
+            { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 29150, 2: 48950, 3: 72050, 4: 95150, 5: 107250 } },
+            { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 32450, 2: 52250, 3: 75350, 4: 98450, 5: 110550 } },
+            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
         id: "ceiling_2way",
         name: "【天井埋め込み型】2方向 エアコンクリーニング",
-        type: "aircon_ceiling",
+        type: "aircon",
         prices: { 1: 24200, 2: 45100, 3: 62700, 4: 83600, 5: 104500 },
         maxQty: 5,
         options: [
-            { id: "coat", name: "防カビ抗菌コート", prices: { 1: 28600, 2: 50600, 3: 70950, 4: 94600, 5: 115500 } },
-            { id: "outdoor", name: "室外機分解クリーニング", prices: { 1: 31350, 2: 53350, 3: 73700, 4: 97350, 5: 118250 } },
-            { id: "both", name: "防カビ＋室外機", prices: { 1: 34650, 2: 56650, 3: 77000, 4: 100650, 5: 121550 } }
+            { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 28600, 2: 50600, 3: 70950, 4: 94600, 5: 115500 } },
+            { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 31350, 2: 53350, 3: 73700, 4: 97350, 5: 118250 } },
+            { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 34650, 2: 56650, 3: 77000, 4: 100650, 5: 121550 } },
+            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
         id: "ceiling_4way",
         name: "【天井埋め込み型】4方向 エアコンクリーニング",
-        type: "aircon_ceiling",
+        type: "aircon",
         prices: { 1: 26400, 2: 49500 },
         maxQty: 2,
         options: [
-            { id: "coat", name: "防カビ抗菌コート", prices: { 1: 30800, 2: 53900 } },
-            { id: "outdoor", name: "室外機分解クリーニング", prices: { 1: 33550, 2: 56650 } },
-            { id: "both", name: "防カビ＋室外機", prices: { 1: 37950, 2: 61050 } }
-        ]
-    },
-    {
-        id: "ceiling_suspended",
-        name: "【天井吊り型】エアコンクリーニング",
-        type: "aircon_ceiling",
-        prices: { 1: 31625, 2: 63250, 3: 94875, 4: 126500 },
-        maxQty: 4,
-        options: [
-            { id: "coat", name: "防カビ抗菌コート", prices: { 1: 36025, 2: 67650, 3: 99275, 4: 130900 } },
-            { id: "outdoor", name: "室外機分解クリーニング", prices: { 1: 95150, 2: 87450, 3: 139645, 4: 193655 } }
+            { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 30800, 2: 53900 } },
+            { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 33550, 2: 56650 } },
+            { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 37950, 2: 61050 } },
+            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
@@ -333,8 +326,8 @@ const menuData = [
         prices: { 1: 44000 },
         maxQty: 1,
         options: [
-            { id: "apron", name: "エプロン内部高圧洗浄", prices: { 1: 49500 } },
-            { id: "uroko", name: "鏡のウロコ取り洗浄", prices: { 1: 47850 } }
+            { id: "apron", name: "エプロン内部高圧洗浄", type: "add", pricePerUnit: 5500 }, // 推定単価差分として設定
+            { id: "uroko", name: "鏡のウロコ取り洗浄", type: "add", pricePerUnit: 3850 }
         ]
     },
     {
@@ -344,9 +337,9 @@ const menuData = [
         prices: { 1: 16500 },
         maxQty: 1,
         options: [
-            { id: "shokusen", name: "食洗機の水垢が気になるかた", prices: { 1: 22000 } },
-            { id: "range", name: "レンジフード", prices: { 1: 27500 } },
-            { id: "bath", name: "風呂清掃", prices: { 1: 38500 } }
+            { id: "shokusen", name: "食洗機の水垢が気になるかた", type: "add", pricePerUnit: 5500 },
+            { id: "range", name: "レンジフード", type: "add", pricePerUnit: 11000 },
+            { id: "bath", name: "風呂清掃", type: "add", pricePerUnit: 22000 }
         ]
     },
     {
@@ -362,14 +355,6 @@ const menuData = [
         name: "【3点セット】お風呂×キッチン×レンジフード",
         type: "single_menu",
         prices: { 1: 38500 },
-        maxQty: 1,
-        options: []
-    },
-    {
-        id: "drain_pan",
-        name: "エアコンのドレンパン清掃",
-        type: "single_menu",
-        prices: { 1: 550 },
         maxQty: 1,
         options: []
     },
@@ -391,9 +376,6 @@ const menuData = [
     }
 ];
 
-// 💡 補足：CSV上の「└ 防カビ抗菌コート付きメニュー」などは、
-// お客さまが混乱しないよう「メインメニューの単価がオプション適用価格に上書きされる形」でスマートに処理しています。
-
 // HTML構造の組み立て
 const container = document.getElementById('menu-container');
 
@@ -402,13 +384,11 @@ menuData.forEach(menu => {
     card.className = 'card';
     card.id = `card-${menu.id}`;
 
-    // 台数プルダウンの作成
     let qtyOptions = '';
     for(let i = 1; i <= menu.maxQty; i++) {
         qtyOptions += `<option value="${i}">${i}台</option>`;
     }
 
-    // オプションHTMLの生成
     let optionsHtml = '';
     if (menu.options && menu.options.length > 0) {
         optionsHtml = `<div class="options-area">`;
@@ -443,11 +423,9 @@ menuData.forEach(menu => {
     `;
 
     container.appendChild(card);
-    // 初期金額の表示を更新
     updatePriceTexts(menu);
 });
 
-// メニューの有効・無効切り替え
 function toggleMenu(menuId) {
     const card = document.getElementById(`card-${menuId}`);
     const mainCheck = document.getElementById(`check-${menuId}`);
@@ -459,14 +437,12 @@ function toggleMenu(menuId) {
     } else {
         card.classList.remove('active');
         qtySelect.disabled = true;
-        // メニューのチェックが外れたら配下のオプションチェックも外す
         const optChecks = card.querySelectorAll('.opt-checkbox');
         optChecks.forEach(cb => cb.checked = false);
     }
     calculateTotal();
 }
 
-// 台数やメニュー変更時に各価格表記を更新する
 function updatePrices(menuId) {
     const menu = menuData.find(m => m.id === menuId);
     if(menu) {
@@ -475,39 +451,40 @@ function updatePrices(menuId) {
     calculateTotal();
 }
 
-// 金額テキストを画面上の各項目にセットする関数
 function updatePriceTexts(menu) {
     const qty = parseInt(document.getElementById(`qty-${menu.id}`).value) || 1;
     
-    // 基本料金のテキスト更新
     const basePrice = menu.prices[qty];
     const baseTextElem = document.getElementById(`base-price-text-${menu.id}`);
     baseTextElem.textContent = basePrice === 0 ? "要見積" : `¥${basePrice.toLocaleString()}`;
 
-    // オプション料金のテキスト更新
     if (menu.options) {
         menu.options.forEach(opt => {
             const optPriceElem = document.getElementById(`price-text-${menu.id}-${opt.id}`);
             if (optPriceElem) {
-                const price = opt.prices[qty];
-                // CSV上の構造（オプションにチェックを入れると、基本料金ごと金額がスライドする）に対応
-                if (price === 0) {
-                    optPriceElem.textContent = "(要見積)";
-                } else {
-                    const diff = price - basePrice;
-                    optPriceElem.textContent = diff >= 0 ? `(+¥${diff.toLocaleString()})` : `(割引 ¥${Math.abs(diff).toLocaleString()})`;
+                if (opt.type === "slide") {
+                    const price = opt.prices[qty];
+                    if (price === 0) {
+                        optPriceElem.textContent = "(要見積)";
+                    } else {
+                        const diff = price - basePrice;
+                        optPriceElem.textContent = diff >= 0 ? `(+¥${diff.toLocaleString()})` : `(割引 ¥${Math.abs(diff).toLocaleString()})`;
+                    }
+                } else if (opt.type === "add") {
+                    // 単純加算型（ドレンパンなど、台数分の加算になるもの）
+                    const addPrice = opt.pricePerUnit * qty;
+                    optPriceElem.textContent = `(+¥${addPrice.toLocaleString()})`;
                 }
             }
         });
     }
 }
 
-// 🧮 合計金額のリアルタイム計算コアロジック
 function calculateTotal() {
     let total = 0;
     let hasEstimate = false;
     const summaryList = document.getElementById('summary-list');
-    summaryList.innerHTML = ''; // クリア
+    summaryList.innerHTML = '';
 
     let selectedItemsCount = 0;
 
@@ -517,28 +494,33 @@ function calculateTotal() {
             selectedItemsCount++;
             const qty = parseInt(document.getElementById(`qty-${menu.id}`).value) || 1;
             
-            // チェックされているオプションを探す
-            let activeOpt = null;
+            let basePrice = menu.prices[qty];
+            let itemPrice = basePrice;
+            let optPriceAddition = 0;
+            let selectedOptNames = [];
+
             if (menu.options) {
                 menu.options.forEach(opt => {
                     const optCheck = document.querySelector(`input[data-menu-id="${menu.id}"][data-opt-id="${opt.id}"]`);
                     if (optCheck && optCheck.checked) {
-                        activeOpt = opt; // 最後にチェックされているものを適用（CSVがセット価格構造のため単一適用）
+                        if (opt.type === "slide") {
+                            // スライド式はベース単価自体を上書き
+                            itemPrice = opt.prices[qty];
+                            selectedOptNames.push(opt.name);
+                        } else if (opt.type === "add") {
+                            // 単純加算式（ドレンパンなど台数連動）
+                            optPriceAddition += (opt.pricePerUnit * qty);
+                            selectedOptNames.push(opt.name);
+                        }
                     }
                 });
             }
 
-            let itemPrice = 0;
             let itemNameStr = `${menu.name} (${qty}台)`;
-
-            if (activeOpt) {
-                itemPrice = activeOpt.prices[qty];
-                itemNameStr += ` ＋ ${activeOpt.name}`;
-            } else {
-                itemPrice = menu.prices[qty];
+            if (selectedOptNames.length > 0) {
+                itemNameStr += ` ＋ ${selectedOptNames.join('＋')}`;
             }
 
-            // 金額加算と明細追加
             const li = document.createElement('li');
             li.className = 'summary-item';
             
@@ -546,8 +528,9 @@ function calculateTotal() {
                 hasEstimate = true;
                 li.innerHTML = `<span>${itemNameStr}</span><span style="color:#f39c12;">要見積</span>`;
             } else {
-                total += itemPrice;
-                li.innerHTML = `<span>${itemNameStr}</span><span>¥${itemPrice.toLocaleString()}</span>`;
+                const finalItemPrice = itemPrice + optPriceAddition;
+                total += finalItemPrice;
+                li.innerHTML = `<span>${itemNameStr}</span><span>¥${finalItemPrice.toLocaleString()}</span>`;
             }
             summaryList.appendChild(li);
         }
@@ -557,10 +540,7 @@ function calculateTotal() {
         summaryList.innerHTML = '<li class="summary-item">メニューが選択されていません</li>';
     }
 
-    // 合計金額の描画
     document.getElementById('total-price').textContent = `¥${total.toLocaleString()}`;
-    
-    // 見積もり注意書きの出し分け
     document.getElementById('estimate-note').style.display = hasEstimate ? 'block' : 'none';
 }
 </script>
