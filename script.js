@@ -2,8 +2,6 @@
  * =================================================================
  * ⚙️ データの編集・変更はここを書き換えてください
  * =================================================================
- * prices: 金額（税込）
- * times: 各台数ごとの施工時間（分）※CSVの「施工時間（m）」データを反映
  */
 const menuData = [
     {
@@ -11,13 +9,13 @@ const menuData = [
         name: "【標準】壁掛け型エアコンクリーニング",
         type: "aircon",
         prices: { 1: 9900, 2: 16500, 3: 24750, 4: 0 },
-        times: { 1: 60, 2: 100, 3: 150, 4: 0 }, // ✨ 時間を追加
+        times: { 1: 60, 2: 100, 3: 150, 4: 0 },
         maxQty: 4,
         options: [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 13200, 2: 19800, 3: 28050, 4: 0 }, times: { 1: 70, 2: 110, 3: 180, 4: 0 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 15400, 2: 22000, 3: 5500, 4: 0 }, times: { 1: 90, 2: 140, 3: 180, 4: 0 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 16225, 2: 22825, 3: 31075, 4: 0 }, times: { 1: 100, 2: 180, 3: 190, 4: 0 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550, timePerUnit: 10 } // ドレンパン清掃はCSVより1台あたり10分
+            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550, timePerUnit: 10 }
         ]
     },
     {
@@ -25,7 +23,7 @@ const menuData = [
         name: "【壁掛型】お掃除機能付きエアコンクリーニング",
         type: "aircon",
         prices: { 1: 19800, 2: 36300, 3: 54450 },
-        times: { 1: 120, 2: 210, 3: 300 }, // 推定・CSVベースの時間
+        times: { 1: 120, 2: 210, 3: 300 },
         maxQty: 3,
         options: [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 23100, 2: 41250, 3: 61050 }, times: { 1: 130, 2: 220, 3: 310 } },
@@ -81,11 +79,11 @@ const menuData = [
         name: "【お得なセット！】キッチン×換気扇×お風呂（水回り）",
         type: "water",
         prices: { 1: 44000 },
-        times: { 1: 240 }, // CSVの240分
+        times: { 1: 240 },
         maxQty: 1,
         options: [
-            { id: "apron", name: "エプロン内部高圧洗浄", type: "add", pricePerUnit: 5500, timePerUnit: 40 }, // CSV差分より+40分
-            { id: "uroko", name: "鏡のウロコ取り洗浄", type: "add", pricePerUnit: 3850, timePerUnit: 30 }   // CSV差分より+30分
+            { id: "apron", name: "エプロン内部高圧洗浄", type: "add", pricePerUnit: 5500, timePerUnit: 40 },
+            { id: "uroko", name: "鏡のウロコ取り洗浄", type: "add", pricePerUnit: 3850, timePerUnit: 30 }
         ]
     },
     {
@@ -93,12 +91,12 @@ const menuData = [
         name: "【シンクやコンロを綺麗に！】キッチンクリーニング 1箇所",
         type: "water",
         prices: { 1: 16500 },
-        times: { 1: 100 }, // CSVの100分
+        times: { 1: 100 },
         maxQty: 1,
         options: [
-            { id: "shokusen", name: "食洗機の水垢が気になるかた", type: "add", pricePerUnit: 5500, timePerUnit: 30 }, // +30分
-            { id: "range", name: "レンジフード", type: "add", pricePerUnit: 11000, timePerUnit: 50 },                 // +50分
-            { id: "bath", name: "風呂清掃", type: "add", pricePerUnit: 22000, timePerUnit: 120 }                       // +120分
+            { id: "shokusen", name: "食洗機の水垢が気になるかた", type: "add", pricePerUnit: 5500, timePerUnit: 30 },
+            { id: "range", name: "レンジフード", type: "add", pricePerUnit: 11000, timePerUnit: 50 },
+            { id: "bath", name: "風呂清掃", type: "add", pricePerUnit: 22000, timePerUnit: 120 }
         ]
     },
     {
@@ -106,7 +104,7 @@ const menuData = [
         name: "【５点セット】お風呂×キッチン×レンジフード×トイレ×洗面",
         type: "water",
         prices: { 1: 55000 },
-        times: { 1: 300 }, // CSVの300分
+        times: { 1: 300 },
         maxQty: 1,
         options: []
     },
@@ -115,7 +113,7 @@ const menuData = [
         name: "【3点セット】お風呂×キッチン×レンジフード",
         type: "water",
         prices: { 1: 38500 },
-        times: { 1: 300 }, // CSVの300分
+        times: { 1: 300 },
         maxQty: 1,
         options: []
     },
@@ -124,7 +122,7 @@ const menuData = [
         name: "トイレ",
         type: "water",
         prices: { 1: 4950 },
-        times: { 1: 40 }, // CSVの40分
+        times: { 1: 40 },
         maxQty: 1,
         options: []
     },
@@ -133,13 +131,15 @@ const menuData = [
         name: "洗面所（排水溝なし）",
         type: "water",
         prices: { 1: 4400 },
-        times: { 1: 30 }, // CSVの30分
+        times: { 1: 30 },
         maxQty: 1,
         options: []
     }
 ];
 
-// HTML構造の組み立て開始
+// コピー用のテキストデータを一時保管するグローバル変数
+let copyTextCache = "";
+
 const container = document.getElementById('menu-container');
 
 menuData.forEach(menu => {
@@ -251,13 +251,16 @@ function updatePriceTexts(menu) {
 }
 
 function calculateTotal() {
-    let total = 0;
-    let totalMinutes = 0; // ✨ 追加：合計所要時間のカウンター
+    let subtotal = 0; // 割引前の小計
+    let totalMinutes = 0;
     let hasEstimate = false;
     const summaryList = document.getElementById('summary-list');
     summaryList.innerHTML = '';
 
     let selectedItemsCount = 0;
+    
+    // コピーテキスト生成用
+    let copyDetailsText = "";
 
     menuData.forEach(menu => {
         const mainCheck = document.getElementById(`check-${menu.id}`);
@@ -266,10 +269,10 @@ function calculateTotal() {
             const qty = parseInt(document.getElementById(`qty-${menu.id}`).value) || 1;
             
             let itemPrice = menu.prices[qty];
-            let itemMinutes = menu.times[qty]; // メインメニューのベース時間
+            let itemMinutes = menu.times[qty];
             
             let optPriceAddition = 0;
-            let optTimeAddition = 0; // オプションによる時間の追加分
+            let optTimeAddition = 0;
             let selectedOptNames = [];
 
             if (menu.options) {
@@ -277,13 +280,11 @@ function calculateTotal() {
                     const optCheck = document.querySelector(`input[data-menu-id="${menu.id}"][data-opt-id="${opt.id}"]`);
                     if (optCheck && optCheck.checked) {
                         if (opt.type === "slide") {
-                            // 金額の加算
                             const singleBasePrice = menu.prices[1];
                             const singleOptPrice = opt.prices[1];
                             const singleDiff = singleOptPrice - singleBasePrice;
                             optPriceAddition += (singleDiff * qty);
 
-                            // ✨ 時間の計算：スライド式（防カビ等）もベース時間との差分を台数分掛け算
                             const singleBaseTime = menu.times[1];
                             const singleOptTime = opt.times[1];
                             const singleTimeDiff = singleOptTime - singleBaseTime;
@@ -291,12 +292,8 @@ function calculateTotal() {
 
                             selectedOptNames.push(opt.name);
                         } else if (opt.type === "add") {
-                            // 金額の加算
                             optPriceAddition += (opt.pricePerUnit * qty);
-                            
-                            // ✨ 時間の加算（ドレンパン清掃や水回りオプションなど）
                             optTimeAddition += (opt.timePerUnit * qty);
-                            
                             selectedOptNames.push(opt.name);
                         }
                     }
@@ -316,14 +313,14 @@ function calculateTotal() {
             if (itemPrice === 0) {
                 hasEstimate = true;
                 li.innerHTML = `<span>${itemNameStr}</span><span style="color:#f39c12;">要見積</span>`;
+                copyDetailsText += `${itemNameStr}\n要見積\n`;
             } else {
                 const finalItemPrice = itemPrice + optPriceAddition;
-                total += finalItemPrice;
-                
-                // ✨ 各メニューの合計時間を集計
+                subtotal += finalItemPrice;
                 totalMinutes += (itemMinutes + optTimeAddition);
                 
                 li.innerHTML = `<span>${itemNameStr}</span><span>¥${finalItemPrice.toLocaleString()}</span>`;
+                copyDetailsText += `${itemNameStr}\n¥${finalItemPrice.toLocaleString()}\n`;
             }
             summaryList.appendChild(li);
         }
@@ -333,8 +330,56 @@ function calculateTotal() {
         summaryList.innerHTML = '<li class="summary-item">メニューが選択されていません</li>';
     }
 
-    // ✨ 画面への反映
+    // ✨ 割引の計算処理
+    const discountType = document.getElementById('discount-type').value;
+    const discountValue = Math.max(0, parseFloat(document.getElementById('discount-value').value) || 0);
+    let discountAmount = 0;
+
+    if (discountType === "yen") {
+        discountAmount = discountValue;
+    } else if (discountType === "percent") {
+        discountAmount = Math.round(subtotal * (discountValue / 100));
+    }
+
+    // 最終合計金額 (マイナスにならないよう制御)
+    const finalTotal = Math.max(0, subtotal - discountAmount);
+
+    // 画面に反映
     document.getElementById('total-time').textContent = `${totalMinutes}分`;
-    document.getElementById('total-price').textContent = `¥${total.toLocaleString()}`;
+    document.getElementById('total-price').textContent = `¥${finalTotal.toLocaleString()}`;
     document.getElementById('estimate-note').style.display = hasEstimate ? 'block' : 'none';
+
+    // ✨ 送信用テキストの組み立て（グローバルキャッシュに保存）
+    if (selectedItemsCount > 0) {
+        let textResult = "【ご依頼内容】\n" + copyDetailsText + "\n";
+        
+        // 割引があった場合は明細に追記
+        if (discountAmount > 0) {
+            textResult += `割引\n-¥${discountAmount.toLocaleString()}\n\n`;
+        }
+        
+        textResult += `合計金額 (税込)\n¥${finalTotal.toLocaleString()}\n\n`;
+        textResult += "※所要時間はあくまでも目安です。当日の汚れの範囲や度合いによってはお時間が前後いたします。";
+        copyTextCache = textResult;
+    } else {
+        copyTextCache = "";
+    }
+}
+
+// ✨ クリップボードへのコピー機能
+function copyToClipboard() {
+    if (!copyTextCache) {
+        alert("メニューが選択されていないため、コピーできません。");
+        return;
+    }
+
+    navigator.clipboard.writeText(copyTextCache).then(() => {
+        const alertText = document.getElementById('copy-alert');
+        alertText.style.display = "inline";
+        setTimeout(() => {
+            alertText.style.display = "none";
+        }, 2000);
+    }).catch(err => {
+        alert("コピーに失敗しました。お使いのブラウザの設定をご確認ください。");
+    });
 }
