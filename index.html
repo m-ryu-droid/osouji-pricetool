@@ -24,9 +24,34 @@
         <ul class="summary-list" id="summary-list">
             <li class="summary-item">メニューが選択されていません</li>
         </ul>
+        
+        <div class="discount-area">
+            <span>割引設定：</span>
+            <select id="discount-type" onchange="calculateTotal()">
+                <option value="none">割引なし</option>
+                <option value="yen">円引き (¥)</option>
+                <option value="percent">％引き (%)</option>
+            </select>
+            <input type="number" id="discount-value" value="0" min="0" oninput="calculateTotal()" placeholder="数字を入力">
+        </div>
+
         <div class="time-row">
-    <span>合計所要時間</span>
-    <span class="total-time" id="total-time">0分</span>
+            <span>合計所要時間</span>
+            <span class="total-time" id="total-time">0分</span>
+        </div>
+        
+        <div class="total-row">
+            <span>合計金額 (税込)</span>
+            <span class="total-price" id="total-price">¥0</span>
+        </div>
+        
+        <div class="action-row">
+            <button class="copy-btn" onclick="copyToClipboard()">選択内容をコピーする</button>
+            <span class="copy-alert" id="copy-alert">コピーしました！</span>
+        </div>
+
+        <div class="estimate-note" id="estimate-note">※「金額：要見積」の項目が含まれています。別途お見積もりが必要です。</div>
+    </div>
 </div>
 <div class="total-row">
     <span>合計金額 (税込)</span>
