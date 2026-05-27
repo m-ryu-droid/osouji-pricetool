@@ -14,7 +14,7 @@ const menuData = [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 13200, 2: 19800, 3: 28050, 4: 0 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 15400, 2: 22000, 3: 5500, 4: 0 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 16225, 2: 22825, 3: 31075, 4: 0 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
+            { id: "drain", name: "ドレンホース清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
@@ -27,7 +27,7 @@ const menuData = [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 23100, 2: 41250, 3: 61050 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 25300, 2: 42900, 3: 63250 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 26125, 2: 44275, 3: 64625 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
+            { id: "drain", name: "ドレンホース清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
@@ -40,7 +40,7 @@ const menuData = [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 26400, 2: 46200, 3: 69300, 4: 92400, 5: 104500 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 29150, 2: 48950, 3: 72050, 4: 95150, 5: 107250 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 32450, 2: 52250, 3: 75350, 4: 98450, 5: 110550 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
+            { id: "drain", name: "ドレンホース清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
@@ -53,7 +53,7 @@ const menuData = [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 28600, 2: 50600, 3: 70950, 4: 94600, 5: 115500 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 31350, 2: 53350, 3: 73700, 4: 97350, 5: 118250 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 34650, 2: 56650, 3: 77000, 4: 100650, 5: 121550 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
+            { id: "drain", name: "ドレンホース清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
@@ -66,7 +66,7 @@ const menuData = [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 30800, 2: 53900 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 33550, 2: 56650 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 37950, 2: 61050 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
+            { id: "drain", name: "ドレンホース清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
