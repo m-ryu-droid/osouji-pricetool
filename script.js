@@ -87,9 +87,9 @@ const menuData = [
         prices: { 1: 16500 },
         maxQty: 1,
         options: [
-            { id: "shokusen", name: "食洗機の水垢が気になるかた", type: "add", pricePerUnit: 5500 },
-            { id: "range", name: "レンジフード", type: "add", pricePerUnit: 11000 },
-            { id: "bath", name: "風呂清掃", type: "add", pricePerUnit: 22000 }
+            { id: "shokusen", name: "食洗機清掃", type: "add", pricePerUnit: 5500 },
+            { id: "range", name: "レンジフード清掃", type: "add", pricePerUnit: 11000 },
+            { id: "bath", name: "お風呂清掃", type: "add", pricePerUnit: 22000 }
         ]
     },
     {
