@@ -228,3 +228,58 @@ h1 {
     text-align: right;
     display: none;
 }
+
+/* ✨ 追加：割引エリアとコピーボタンのスタイル */
+.discount-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.discount-area select, .discount-area input {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: #34495e;
+    color: #fff;
+    outline: none;
+}
+
+.discount-area input {
+    width: 80px;
+}
+
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 12px;
+}
+
+.copy-btn {
+    background-color: #34495e;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.copy-btn:hover {
+    background-color: #415b76;
+}
+
+.copy-alert {
+    font-size: 13px;
+    color: #2ecc71; /* 上品なグリーン */
+    font-weight: bold;
+    display: none;
+}
