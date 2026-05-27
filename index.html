@@ -154,14 +154,14 @@
             color: var(--text-muted);
         }
 
-        /* ✨ 変更点：画面下部に常に固定される計算結果表示エリア */
+        /* 画面下部に常に固定される計算結果表示エリア */
         .result-panel-fixed {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(44, 62, 80, 0.98); /* 背景をわずかに透過させて上品に */
-            backdrop-filter: blur(4px); /* 背景をぼかすエフェクト */
+            background: rgba(44, 62, 80, 0.98);
+            backdrop-filter: blur(4px);
             color: #ffffff;
             box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.15);
             padding: 20px 40px;
@@ -186,7 +186,7 @@
             padding: 0;
             margin: 0 0 10px 0;
             font-size: 14px;
-            max-height: 80px; /* 固定パネル内で収まるよう少しコンパクトに */
+            max-height: 80px;
             overflow-y: auto;
         }
 
@@ -257,14 +257,14 @@ const menuData = [
     {
         id: "standard_wall",
         name: "【標準】壁掛け型エアコンクリーニング",
-        type: "aircon",
+        type: "aircon", // ✨ airconタイプは「~台」、それ以外は「×~」で数量表示します
         prices: { 1: 9900, 2: 16500, 3: 24750, 4: 0 },
         maxQty: 4,
         options: [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 13200, 2: 19800, 3: 28050, 4: 0 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 15400, 2: 22000, 3: 5500, 4: 0 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 16225, 2: 22825, 3: 31075, 4: 0 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 } // ✨ エアコン共通オプションとして追加
+            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550 }
         ]
     },
     {
@@ -326,7 +326,7 @@ const menuData = [
         prices: { 1: 44000 },
         maxQty: 1,
         options: [
-            { id: "apron", name: "エプロン内部高圧洗浄", type: "add", pricePerUnit: 5500 }, // 推定単価差分として設定
+            { id: "apron", name: "エプロン内部高圧洗浄", type: "add", pricePerUnit: 5500 },
             { id: "uroko", name: "鏡のウロコ取り洗浄", type: "add", pricePerUnit: 3850 }
         ]
     },
@@ -345,7 +345,7 @@ const menuData = [
     {
         id: "water_5set",
         name: "【５点セット】お風呂×キッチン×レンジフード×トイレ×洗面",
-        type: "single_menu",
+        type: "water",
         prices: { 1: 55000 },
         maxQty: 1,
         options: []
@@ -353,7 +353,7 @@ const menuData = [
     {
         id: "water_3set",
         name: "【3点セット】お風呂×キッチン×レンジフード",
-        type: "single_menu",
+        type: "water",
         prices: { 1: 38500 },
         maxQty: 1,
         options: []
@@ -361,7 +361,7 @@ const menuData = [
     {
         id: "toilet",
         name: "トイレ",
-        type: "single_menu",
+        type: "water",
         prices: { 1: 4950 },
         maxQty: 1,
         options: []
@@ -369,7 +369,7 @@ const menuData = [
     {
         id: "washroom",
         name: "洗面所（排水溝なし）",
-        type: "single_menu",
+        type: "water",
         prices: { 1: 4400 },
         maxQty: 1,
         options: []
@@ -384,9 +384,12 @@ menuData.forEach(menu => {
     card.className = 'card';
     card.id = `card-${menu.id}`;
 
+    // 💡 工夫点：画面上のプルダウン文字もエアコン以外は「1セット」「2セット」等に変更可能
+    const unitWord = menu.type === "aircon" ? "台" : "セット";
+
     let qtyOptions = '';
     for(let i = 1; i <= menu.maxQty; i++) {
-        qtyOptions += `<option value="${i}">${i}台</option>`;
+        qtyOptions += `<option value="${i}">${i}${unitWord}</option>`;
     }
 
     let optionsHtml = '';
@@ -460,7 +463,7 @@ function updatePriceTexts(menu) {
 
     if (menu.options) {
         menu.options.forEach(opt => {
-            const optPriceElem = document.getElementById(`price-text-${menu.id}-${opt.id}`);
+            const optPriceElem = document.getElementById('price-text-' + menu.id + '-' + opt.id);
             if (optPriceElem) {
                 if (opt.type === "slide") {
                     const price = opt.prices[qty];
@@ -471,7 +474,6 @@ function updatePriceTexts(menu) {
                         optPriceElem.textContent = diff >= 0 ? `(+¥${diff.toLocaleString()})` : `(割引 ¥${Math.abs(diff).toLocaleString()})`;
                     }
                 } else if (opt.type === "add") {
-                    // 単純加算型（ドレンパンなど、台数分の加算になるもの）
                     const addPrice = opt.pricePerUnit * qty;
                     optPriceElem.textContent = `(+¥${addPrice.toLocaleString()})`;
                 }
@@ -494,8 +496,7 @@ function calculateTotal() {
             selectedItemsCount++;
             const qty = parseInt(document.getElementById(`qty-${menu.id}`).value) || 1;
             
-            let basePrice = menu.prices[qty];
-            let itemPrice = basePrice;
+            let itemPrice = menu.prices[qty];
             let optPriceAddition = 0;
             let selectedOptNames = [];
 
@@ -504,11 +505,9 @@ function calculateTotal() {
                     const optCheck = document.querySelector(`input[data-menu-id="${menu.id}"][data-opt-id="${opt.id}"]`);
                     if (optCheck && optCheck.checked) {
                         if (opt.type === "slide") {
-                            // スライド式はベース単価自体を上書き
                             itemPrice = opt.prices[qty];
                             selectedOptNames.push(opt.name);
                         } else if (opt.type === "add") {
-                            // 単純加算式（ドレンパンなど台数連動）
                             optPriceAddition += (opt.pricePerUnit * qty);
                             selectedOptNames.push(opt.name);
                         }
@@ -516,7 +515,10 @@ function calculateTotal() {
                 });
             }
 
-            let itemNameStr = `${menu.name} (${qty}台)`;
+            // ✨ 変更点：メニューのタイプに合わせて明細の数量表記を自動切替
+            const qtyText = menu.type === "aircon" ? ` (${qty}台)` : ` (×${qty})`;
+            
+            let itemNameStr = `${menu.name}${qtyText}`;
             if (selectedOptNames.length > 0) {
                 itemNameStr += ` ＋ ${selectedOptNames.join('＋')}`;
             }
