@@ -15,7 +15,7 @@ const menuData = [
             { id: "coat", name: "防カビ抗菌コート", type: "slide", prices: { 1: 13200, 2: 19800, 3: 28050, 4: 0 }, times: { 1: 70, 2: 110, 3: 180, 4: 0 } },
             { id: "outdoor", name: "室外機分解クリーニング", type: "slide", prices: { 1: 15400, 2: 22000, 3: 5500, 4: 0 }, times: { 1: 90, 2: 140, 3: 180, 4: 0 } },
             { id: "both", name: "防カビ＋室外機", type: "slide", prices: { 1: 16225, 2: 22825, 3: 31075, 4: 0 }, times: { 1: 100, 2: 180, 3: 190, 4: 0 } },
-            { id: "drain", name: "ドレンパン清掃", type: "add", pricePerUnit: 550, timePerUnit: 10 }
+            { id: "drain", name: "ドレンパン清⬥", type: "add", pricePerUnit: 550, timePerUnit: 10 }
         ]
     },
     {
