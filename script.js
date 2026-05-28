@@ -307,3 +307,24 @@ function changeTextType(type) {
     // 文章を再生成
     calculateTotal();
 }
+
+
+// ✨ 追加：最上部タブで「見積計算」と「文章整理」の表示ツール自体を切り替える関数
+function switchMainTool(toolType) {
+    const body = document.body;
+    const tabCalc = document.getElementById("main-tab-calc");
+    const tabEditor = document.getElementById("main-tab-editor");
+
+    if (toolType === "calc") {
+        body.classList.remove("view-editor");
+        body.classList.add("view-calc");
+        tabCalc.classList.add("active");
+        tabEditor.classList.remove("active");
+        calculateTotal(); // 金額を再計算してバーを表示
+    } else if (toolType === "editor") {
+        body.classList.remove("view-calc");
+        body.classList.add("view-editor");
+        tabEditor.classList.add("active");
+        tabCalc.classList.remove("active");
+    }
+}
