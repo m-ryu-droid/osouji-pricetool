@@ -399,3 +399,153 @@ body.layout-bottom .copy-btn {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: none;
 }
+
+
+/* =================================================================
+   🎨 追加：メインツール切り替えタブ & 文章整理ツールのスタイル
+   ================================================================= */
+.main-tool-tabs {
+    display: flex;
+    justify-content: center;
+    background: #1a252f; /* より深いシックなダークグレー */
+    padding: 10px 0;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.main-tab-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.main-tab-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+
+.main-tab-btn.active {
+    background: #34495e;
+    color: #fff;
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+}
+
+/* ツール切り替え時の画面表示コントロール */
+body.view-calc #calc-tool-section { display: block; }
+body.view-calc #editor-tool-section { display: none; }
+body.view-calc #result-panel { display: block; } /* 計算時は右/下バーを表示 */
+
+body.view-editor #calc-tool-section { display: none; }
+body.view-editor #editor-tool-section { display: block; }
+body.view-editor #result-panel { display: none; } /* 整理ツール時は右/下バーを隠す */
+body.view-editor { padding-bottom: 40px !important; } /* 下部余白をリセット */
+
+/* 文章整理ツールの内部パーツ */
+.editor-box {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.editor-box textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: #f8fafc;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+    font-family: inherit;
+}
+
+.editor-box textarea:focus {
+    border-color: #3498db;
+    background: #fff;
+}
+
+.action-btn-primary {
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.action-btn-primary:hover { background: #34495e; }
+
+.parsed-result-container {
+    margin-top: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: #ffffff;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+/* 解析結果リストの各行 */
+.parsed-item {
+    display: flex;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 10px 15px;
+    font-size: 14px;
+    align-items: center;
+}
+.parsed-item:last-child { border-bottom: none; }
+.parsed-item:nth-child(even) { background: #f8fafc; }
+
+/* ❌ キーワードが見つからなかった行を目立たせる */
+.parsed-item.missing {
+    background: #fff5f5;
+}
+
+.parsed-label {
+    font-weight: bold;
+    color: var(--primary-color);
+    width: 220px;
+    flex-shrink: 0;
+    border-right: 2px solid #e2e8f0;
+    padding-right: 10px;
+}
+
+.parsed-value {
+    padding-left: 15px;
+    color: #333;
+    word-break: break-all;
+}
+
+.action-btn-copy {
+    background: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+.action-btn-copy:hover { background: #27ae60; }
+
+.copy-alert-green {
+    font-size: 14px;
+    color: #2ecc71;
+    font-weight: bold;
+    display: none;
+}
