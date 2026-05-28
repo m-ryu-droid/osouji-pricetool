@@ -2,13 +2,11 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-color=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>メニュー料金計算ツール</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-<div class="container">
+<body class="layout-bottom"> <div class="container">
     <header>
         <h1>見積料金計算ツール</h1>
         <div class="subtitle">メニューとオプションを選択してください（すべて税込表記）</div>
@@ -18,8 +16,14 @@
         </div>
 </div>
 
-<div class="result-panel-fixed">
+<div class="result-panel-fixed" id="result-panel">
     <div class="result-inner">
+        <div class="layout-switcher">
+            <span>パネル配置：</span>
+            <button class="switch-btn active" id="btn-layout-bottom" onclick="changeLayout('bottom')">下部固定</button>
+            <button class="switch-btn" id="btn-layout-right" onclick="changeLayout('right')">右側固定</button>
+        </div>
+
         <h2>選択内容明細</h2>
         <ul class="summary-list" id="summary-list">
             <li class="summary-item">メニューが選択されていません</li>
@@ -53,14 +57,8 @@
         <div class="estimate-note" id="estimate-note">※「金額：要見積」の項目が含まれています。別途お見積もりが必要です。</div>
     </div>
 </div>
-<div class="total-row">
-    <span>合計金額 (税込)</span>
-    <span class="total-price" id="total-price">¥0</span>
-</div>
-        <div class="estimate-note" id="estimate-note">※「金額：要見積」の項目が含まれています。別途お見積もりが必要です。</div>
-    </div>
-</div>
 
-<script href="script.js" src="script.js"></script>
+<script src="data.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
